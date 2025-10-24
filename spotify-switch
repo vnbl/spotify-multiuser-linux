@@ -1,0 +1,37 @@
+#!/bin/bash
+# ------------------------------------------------------------
+# spotify-switch: Manage Spotify across multiple Linux users
+# Ensures only one instance runs at a time, and shares a common config.
+# ------------------------------------------------------------
+
+ICON_PATH="/usr/share/icons/hicolor/256x256/apps/spotify.png"
+[ ! -f "$ICON_PATH" ] && ICON_PATH="/usr/share/pixmaps/spotify-client.png"
+CURRENT_USER=$(whoami)
+
+# Find non-zombie Spotify processes
+PIDS=$(pgrep -x spotify | xargs -r ps -o pid=,state=,user= | awk '$2 !~ /^[Zz]/ {print $1, $3}')
+ACTIVE_USERS=$(echo "$PIDS" | awk '{print $2}' | sort | uniq)
+
+if [ -n "$ACTIVE_USERS" ]; then
+    for USER in $ACTIVE_USERS; do
+        if [ "$USER" != "$CURRENT_USER" ]; then
+            notify-send -i "$ICON_PATH" "Spotify Switch" \
+                "Spotify was running as $USER — closing and reopening as $CURRENT_USER."
+            echo "⚠️  Spotify was running under user: $USER"
+            echo "🔁 Closing Spotify for that user..."
+            sudo pkill -u "$USER" -x spotify 2>/dev/null
+            sleep 1
+        fi
+    done
+fi
+
+# Avoid duplicates
+if pgrep -u "$CURRENT_USER" -x spotify >/dev/null; then
+    notify-send -i "$ICON_PATH" "Spotify Switch" "Spotify is already running as $CURRENT_USER."
+    echo "🎧 Spotify is already running as $CURRENT_USER."
+    exit 0
+fi
+
+notify-send -i "$ICON_PATH" "Spotify Switch" "Launching Spotify as $CURRENT_USER..."
+echo "🎧 Launching Spotify as $CURRENT_USER ..."
+exec /usr/bin/spotify "$@" 2>/dev/null
