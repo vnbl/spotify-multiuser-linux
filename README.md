@@ -1,16 +1,9 @@
-Perfect 👌 — here’s a **more general and polished version** of your README, with all personal references removed and neutral user examples.
-It keeps the same structure, clarity, and formatting — just rewritten to be more universally applicable.
-
----
-
-````markdown
 # 🎧 Spotify Multiuser Config for Linux
 
 Share the **same Spotify session and preferences** between multiple local users on a single Linux system.
 
 > Works with Ubuntu / Debian systems using the `.deb` version of Spotify (not Snap).
 
----
 
 ## Overview
 
@@ -21,8 +14,6 @@ This setup allows all local users to share:
 - The same playlists, cache, and preferences  
 - A unified configuration folder accessible to all accounts  
 
----
-
 ## Features
 
 ✅ Shared configuration directory (`/usr/local/share/spotify-config`)  
@@ -31,16 +22,12 @@ This setup allows all local users to share:
 ✅ Desktop notifications with the Spotify icon  
 ✅ Works without sandbox restrictions (unlike the Snap version)
 
----
-
 ## Requirements
 
 - Ubuntu or Debian-based system  
 - Spotify **.deb package** (`spotify-client`)  
 - `libnotify-bin` for desktop notifications  
 - Sudo privileges for setup  
-
----
 
 ## Quick Setup
 
@@ -66,7 +53,6 @@ sudo chmod +x setup.sh spotify-switch
 sudo cp spotify-switch /usr/local/bin/
 ```
 
----
 
 ## Usage
 
@@ -83,7 +69,6 @@ The launcher will:
 3. Start Spotify under the current user
 4. Show a desktop notification confirming the switch
 
----
 
 ## Example Configuration
 
@@ -95,7 +80,6 @@ lrwxrwxrwx 1 user-b spotify /home/user-b/.config/spotify -> /usr/local/share/spo
 
 All users in the `spotify` group can access the same configuration and remain logged in with one shared session.
 
----
 
 ## How It Works
 
@@ -105,7 +89,6 @@ All users in the `spotify` group can access the same configuration and remain lo
 4. Each user’s `~/.config/spotify` is replaced with a symbolic link to that shared folder.
 5. The `spotify-switch` script ensures only one instance runs at a time and handles session switching with notifications.
 
----
 
 ## ⚠️ Notes
 
@@ -123,7 +106,6 @@ All users in the `spotify` group can access the same configuration and remain lo
   ```
 * GTK or `libva` warnings in terminal are harmless and can be ignored.
 
----
 
 ## License
 
@@ -134,5 +116,7 @@ This project is licensed under the [MIT License](LICENSE).
 ## Credits
 
 Developed by the vnbl
+
 Tested on Ubuntu 24.04 LTS with Spotify 1.2.x.
+
 Inspired by discussions on Unix StackExchange and AskUbuntu.
